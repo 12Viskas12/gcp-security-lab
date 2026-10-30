@@ -1,0 +1,50 @@
+# GCP Security Hard Lab
+
+Практическая работа по Cloud Security Engineering / SOC / Incident Response / DevSecOps на Google Cloud Platform. Стандарт: ISO/IEC 27001:2022 (учебное сопоставление).
+
+Всё выполнялось **только в отдельном тестовом проекте GCP** с синтетическими данными.
+
+## Структура
+
+| Путь | Содержимое |
+| --- | --- |
+| `terraform/` | Инфраструктура как код: VPC, Cloud Storage, IAM (три роли), аудит-логи, детекты, алерты |
+| `detections/` | Матрица обнаружений и запросы Logs Explorer/Log Analytics |
+| `runbooks/` | Общий процесс реагирования, tabletop, runbooks RB-001…RB-006, экстренный доступ |
+| `incidents/` | Шесть расследований IR-01…IR-06 (формат из 10 пунктов) |
+| `compliance/` | Матрица контролей ISO 27001 (CSV) |
+| `reports/` | Финальный отчёт |
+| `docs/` | Архитектура, реестр активов, модель угроз, IAM review, безопасность Storage, Terraform-операции, журнал выполнения, публикация |
+| `evidence/` | `architecture.png`, `screenshots/`, `sanitized-logs/` (без секретов) |
+| `scripts/` | `verify.sh`, `drift-check.sh`, `test-versioning.sh`, `sanitize.sh`, `pre-push-check.sh`, `import-existing.sh` |
+
+## Как развернуть (для другого инженера)
+
+Нужны: `gcloud`, `terraform >= 1.5`, `git`, тестовый проект с billing.
+
+```bash
+gcloud auth login && gcloud auth application-default login
+gcloud config set project PROJECT_ID
+gcloud auth application-default set-quota-project PROJECT_ID
+cd terraform
+cp terraform.tfvars.example terraform.tfvars        # задай project_id, alert_email, tester_members
+terraform init && terraform plan -out=tfplan && terraform apply tfplan
+cd .. && PROJECT_ID=PROJECT_ID bash scripts/verify.sh   # ожидается FAIL=0
+```
+
+Подробно: [docs/00-step-by-step.md](docs/00-step-by-step.md). Удаление: [docs/terraform-ops.md](docs/terraform-ops.md).
+
+## Документы
+
+- [Архитектура и потоки данных](docs/architecture.md) · [Реестр активов](docs/asset-registry.md) · [Модель угроз](docs/threat-model.md)
+- [IAM review](docs/iam-review.md) · [Storage security](docs/storage-security.md) · [Terraform ops](docs/terraform-ops.md)
+- [Детекты](detections/detection-matrix.md) · [Запросы](detections/queries.md) · [Tabletop](runbooks/tabletop.md)
+- [Матрица ISO 27001](compliance/iso27001-control-matrix.csv) · [Финальный отчёт](reports/final-report.md) · [Журнал выполнения](docs/lab-journal.md)
+
+## Безопасность репозитория
+
+Не коммить `terraform.tfvars`, `*.tfstate`, ключи SA, токены. `.gitignore`, `scripts/pre-push-check.sh` и CI (gitleaks) это блокируют. Перед публикацией evidence очищается `scripts/sanitize.sh` и просматривается вручную (email, project ID, IP, billing account).
+
+## Оговорка
+
+Terraform-код и документы — рабочая основа; результаты расследований, оценки и итоговые статусы основаны на фактах моего запуска. Перед использованием проверь актуальные версии провайдера, доступность сервисов и цены.

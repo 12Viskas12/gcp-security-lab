@@ -1,0 +1,29 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+*.tfvars
+!terraform.tfvars.example
+tfplan
+*.tfplan
+
+# Секреты и ключи (никогда не коммитить)
+*.json
+*.pem
+*.key
+*.p12
+.env
+.env.*
+credentials*
+*-key.*
+
+# Сырые выгрузки логов и доказательства (могут содержать email, IP, ID проекта)
+evidence/raw/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
