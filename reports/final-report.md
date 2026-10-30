@@ -172,7 +172,3 @@ Tabletop: [runbooks/tabletop.md](../runbooks/tabletop.md).
 ![Письма алертов](../evidence/screenshots/19-email-alerts.png)
 
 *Письма алертов*
-
-![Уведомления алертов на телефоне](../evidence/screenshots/19-email-alerts-phone.png)
-
-*Уведомления алертов на телефоне*
