@@ -48,7 +48,7 @@ gcloud iam service-accounts keys list --iam-account="$SA" --managed-by=user     
 | Default VPC с открытыми SSH/RDP | Есть (auto-mode, 42 подсети) | Удалена, только `lab-vpc` | `evidence/screenshots/01…03` |
 | Editor у default compute SA | Есть (автовыдача при включении Compute API) | Снята (IR-05) | `evidence/screenshots/11-iam-principals.png`, `evidence/sanitized-logs/iam-basic-roles-after.txt` |
 | Избыточная SA `sa-overprivileged` (`storage.admin` на проект) | Создана в симуляции | Роль снята, SA удалена | IR-05 |
-| Legacy-роли проектных групп на bucket (`storage.legacyBucketOwner/Reader`, `legacyObjectOwner`) | Унаследованы при создании | Открытая находка F-02 (процедура снятия: `docs/storage-security.md`) | `evidence/screenshots/05-bucket-permissions.png` |
+| Legacy-роли проектных групп на bucket (`storage.legacyBucketOwner/Reader`, `legacyObjectOwner`) | Унаследованы при создании | Открытая находка F-02 (процедура снятия: `docs/storage-security.md`) | `evidence/screenshots/05-bucket-permissions.jpg` |
 | Разделение ролей | Нет отдельных носителей | Три SA, `verify.sh` PASS | `evidence/sanitized-logs/verify-*.txt` |
 
 Снимки политик «до/после» сохраняй командами:
@@ -75,3 +75,10 @@ Terraform использует `*_iam_member`: он управляет толь�
 ## Повторная проверка после исправлений
 
 `bash scripts/verify.sh` (ожидается `FAIL=0`) и `bash scripts/drift-check.sh`.
+
+<!-- screenshots:Скриншоты -->
+## Скриншоты
+
+![IAM: итоговые principals проекта](../evidence/screenshots/11-iam-principals.png)
+
+*IAM: итоговые principals проекта*

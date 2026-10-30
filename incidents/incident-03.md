@@ -82,3 +82,10 @@ Data Access логи дают атрибуцию (кто, что, когда, о
 
 - Выдержка Data Access (успех и отказ) и `GenerateAccessToken`: `evidence/sanitized-logs/`
 - Письма алертов: `evidence/screenshots/19-email-alerts.png`
+
+<!-- screenshots:Скриншоты -->
+## Скриншоты
+
+![Письма алертов](../evidence/screenshots/19-email-alerts.png)
+
+*Письма алертов*

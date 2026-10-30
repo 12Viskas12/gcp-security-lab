@@ -48,3 +48,22 @@ cd .. && PROJECT_ID=PROJECT_ID bash scripts/verify.sh   # ожидается FAI
 ## Оговорка
 
 Terraform-код и документы — рабочая основа; результаты расследований, оценки и итоговые статусы основаны на фактах моего запуска. Перед использованием проверь актуальные версии провайдера, доступность сервисов и цены.
+
+<!-- screenshots:Скриншоты -->
+## Скриншоты
+
+![После: остался только lab-vpc](evidence/screenshots/03-vpc-after-lab-vpc-only.jpg)
+
+*После: остался только lab-vpc*
+
+![Bucket: метки, шифрование, lifecycle](evidence/screenshots/07-bucket-config.jpg)
+
+*Bucket: метки, шифрование, lifecycle*
+
+![Log Router: sink audit-to-security-bucket](evidence/screenshots/09-log-router.jpg)
+
+*Log Router: sink audit-to-security-bucket*
+
+![Письма алертов](evidence/screenshots/19-email-alerts.png)
+
+*Письма алертов*

@@ -9,7 +9,7 @@
 | 05-bucket-permissions.jpg | Public access prevented; UBLA; sa-app-reader = objectViewer; legacy project roles inherited (finding) | `gcloud storage buckets get-iam-policy gs://$BUCKET` |
 | 06-bucket-protection.jpg | Versioning on, soft delete off, no retention policy | `gcloud storage buckets describe gs://$BUCKET` |
 | 07-bucket-config.jpg | Labels, UBLA, PAP enforced, Google-managed encryption, 3 lifecycle rules | `scripts/verify.sh` (Storage section) |
-| 08-alert-policies.jpg | 6 `SEC |` log-based alert policies enabled | `terraform/monitoring.tf` |
+| 08-alert-policies.jpg | 6 `SEC \|` log-based alert policies enabled | `terraform/monitoring.tf` |
 | 09-log-router.jpg | Sink `audit-to-security-bucket` routes audit logs to `security-audit` | `gcloud logging sinks list` |
 | 10-budget.png | Budget `sec-lab-budget` (monthly, thresholds 50/90/100%); alerts only, no spend cap | Billing > Budgets & caps |
 | 11-iam-principals.png | Only the lab owner has a basic role; Editor removed from default compute SA | `evidence/sanitized-logs/iam-basic-roles-after.txt` |

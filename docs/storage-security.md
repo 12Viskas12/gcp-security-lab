@@ -77,3 +77,22 @@ bash scripts/test-versioning.sh | bash scripts/sanitize.sh > evidence/sanitized-
 ## Ограничения
 
 UBLA в течение 90 дней после включения можно отключить (затем блокируется); PAP на bucket может снять тот, у кого есть `storage.buckets.update`; поэтому детект D-02 обязателен. На уровне организации контроль закрепляется Organization Policy `storage.publicAccessPrevention` и `storage.uniformBucketLevelAccess`.
+
+<!-- screenshots:Скриншоты -->
+## Скриншоты
+
+![Bucket: синтетические данные internal/ и confidential/](../evidence/screenshots/04-bucket-objects.jpg)
+
+*Bucket: синтетические данные internal/ и confidential/*
+
+![Bucket: права, Public Access Prevention, UBLA](../evidence/screenshots/05-bucket-permissions.jpg)
+
+*Bucket: права, Public Access Prevention, UBLA*
+
+![Bucket: versioning, soft delete, retention](../evidence/screenshots/06-bucket-protection.jpg)
+
+*Bucket: versioning, soft delete, retention*
+
+![Bucket: метки, шифрование, lifecycle](../evidence/screenshots/07-bucket-config.jpg)
+
+*Bucket: метки, шифрование, lifecycle*

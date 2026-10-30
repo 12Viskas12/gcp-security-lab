@@ -83,3 +83,14 @@ Identity без прав на данные получила чтение CONFIDE
 
 - Письма алертов: `evidence/screenshots/19-email-alerts.png`, `19-email-alerts-phone.png`
 - Лог `setIamPermissions` с `bindingDeltas`, IAM-политика до/после, вывод `terraform plan` (exit 0), вывод `verify.sh` после отката — в `evidence/sanitized-logs/`
+
+<!-- screenshots:Скриншоты -->
+## Скриншоты
+
+![Письма алертов](../evidence/screenshots/19-email-alerts.png)
+
+*Письма алертов*
+
+![Уведомления алертов на телефоне](../evidence/screenshots/19-email-alerts-phone.png)
+
+*Уведомления алертов на телефоне*

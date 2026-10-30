@@ -78,3 +78,18 @@ Audit config возвращён из Terraform; exempted member удалён.
 - Письмо CRITICAL: `evidence/screenshots/19-email-alerts.png`
 - Конфигурация аудита: `evidence/screenshots/12a-audit-storage.png`, `12b-audit-iam.png`
 - `auditConfigDeltas`, `terraform plan` до и после — `evidence/sanitized-logs/`
+
+<!-- screenshots:Скриншоты -->
+## Скриншоты
+
+![Письма алертов](../evidence/screenshots/19-email-alerts.png)
+
+*Письма алертов*
+
+![Audit config: Cloud Storage](../evidence/screenshots/12a-audit-storage.png)
+
+*Audit config: Cloud Storage*
+
+![Audit config: IAM API](../evidence/screenshots/12b-audit-iam.png)
+
+*Audit config: IAM API*

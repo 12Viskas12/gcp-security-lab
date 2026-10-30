@@ -80,3 +80,14 @@ INC-2026-10-05, IR-05, severity: **Высокая (ERROR)**.
 - Письмо алерта: `evidence/screenshots/19-email-alerts.png`
 - Политика проекта после: `evidence/screenshots/11-iam-principals.png`
 - Вывод `get-iam-policy` до и после — `evidence/sanitized-logs/`
+
+<!-- screenshots:Скриншоты -->
+## Скриншоты
+
+![Письма алертов](../evidence/screenshots/19-email-alerts.png)
+
+*Письма алертов*
+
+![IAM: итоговые principals проекта](../evidence/screenshots/11-iam-principals.png)
+
+*IAM: итоговые principals проекта*

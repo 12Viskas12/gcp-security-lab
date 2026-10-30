@@ -36,3 +36,26 @@
 - Удалил бы default VPC и Editor у default compute SA сразу после включения Compute API.
 - Заранее добавил бы алерты на изменения сети и на успешное чтение CONFIDENTIAL.
 - Сделал бы снимки IAM-политик до каждого изменения для сравнения до/после.
+
+<!-- screenshots:Скриншоты -->
+## Скриншоты
+
+![До: default VPC (auto-mode, 42 подсети)](../evidence/screenshots/01-vpc-before-default.jpg)
+
+*До: default VPC (auto-mode, 42 подсети)*
+
+![До: default-allow-ssh/rdp из интернета](../evidence/screenshots/02-firewall-before.jpg)
+
+*До: default-allow-ssh/rdp из интернета*
+
+![После: остался только lab-vpc](../evidence/screenshots/03-vpc-after-lab-vpc-only.jpg)
+
+*После: остался только lab-vpc*
+
+![Log Router: sink audit-to-security-bucket](../evidence/screenshots/09-log-router.jpg)
+
+*Log Router: sink audit-to-security-bucket*
+
+![Бюджет 10 USD с порогами 50/90/100%](../evidence/screenshots/10-budget.png)
+
+*Бюджет 10 USD с порогами 50/90/100%*

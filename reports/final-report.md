@@ -109,3 +109,70 @@ Tabletop: [runbooks/tabletop.md](../runbooks/tabletop.md).
 - Удаление: `terraform destroy`, проверка Asset Inventory, консоль, при необходимости удаление проекта ([docs/terraform-ops.md](../docs/terraform-ops.md)).
 - Бюджет `sec-lab-budget`: 10 USD/месяц, пороги 50/90/100% (`evidence/screenshots/10-budget.png`); на момент снимка расход $0.00. Факторы стоимости: Data Access логи, Flow Logs (выборка 10%), хранение логов 30 дней.
 - После завершения проверки инфраструктура удаляется командой `terraform destroy`; публичных ресурсов в проекте нет.
+
+<!-- screenshots:Приложение A. Скриншоты -->
+## Приложение A. Скриншоты
+
+![До: default VPC (auto-mode, 42 подсети)](../evidence/screenshots/01-vpc-before-default.jpg)
+
+*До: default VPC (auto-mode, 42 подсети)*
+
+![До: default-allow-ssh/rdp из интернета](../evidence/screenshots/02-firewall-before.jpg)
+
+*До: default-allow-ssh/rdp из интернета*
+
+![После: остался только lab-vpc](../evidence/screenshots/03-vpc-after-lab-vpc-only.jpg)
+
+*После: остался только lab-vpc*
+
+![Bucket: синтетические данные internal/ и confidential/](../evidence/screenshots/04-bucket-objects.jpg)
+
+*Bucket: синтетические данные internal/ и confidential/*
+
+![Bucket: права, Public Access Prevention, UBLA](../evidence/screenshots/05-bucket-permissions.jpg)
+
+*Bucket: права, Public Access Prevention, UBLA*
+
+![Bucket: versioning, soft delete, retention](../evidence/screenshots/06-bucket-protection.jpg)
+
+*Bucket: versioning, soft delete, retention*
+
+![Bucket: метки, шифрование, lifecycle](../evidence/screenshots/07-bucket-config.jpg)
+
+*Bucket: метки, шифрование, lifecycle*
+
+![Alert policies (log-based)](../evidence/screenshots/08-alert-policies.jpg)
+
+*Alert policies (log-based)*
+
+![Log Router: sink audit-to-security-bucket](../evidence/screenshots/09-log-router.jpg)
+
+*Log Router: sink audit-to-security-bucket*
+
+![Бюджет 10 USD с порогами 50/90/100%](../evidence/screenshots/10-budget.png)
+
+*Бюджет 10 USD с порогами 50/90/100%*
+
+![IAM: итоговые principals проекта](../evidence/screenshots/11-iam-principals.png)
+
+*IAM: итоговые principals проекта*
+
+![Audit config: Cloud Storage](../evidence/screenshots/12a-audit-storage.png)
+
+*Audit config: Cloud Storage*
+
+![Audit config: IAM API](../evidence/screenshots/12b-audit-iam.png)
+
+*Audit config: IAM API*
+
+![Log bucket security-audit: retention 30 дней](../evidence/screenshots/13-log-bucket-retention.png)
+
+*Log bucket security-audit: retention 30 дней*
+
+![Письма алертов](../evidence/screenshots/19-email-alerts.png)
+
+*Письма алертов*
+
+![Уведомления алертов на телефоне](../evidence/screenshots/19-email-alerts-phone.png)
+
+*Уведомления алертов на телефоне*

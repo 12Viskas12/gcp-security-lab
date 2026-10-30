@@ -79,3 +79,10 @@ INC-2026-10-06, IR-06, severity: **Средняя (ERROR)**.
 
 - Список правил firewall и вывод `drift-check.sh` — `evidence/sanitized-logs/`
 - Правила firewall до исправлений: `evidence/screenshots/02-firewall-before.jpg`
+
+<!-- screenshots:Скриншоты -->
+## Скриншоты
+
+![До: default-allow-ssh/rdp из интернета](../evidence/screenshots/02-firewall-before.jpg)
+
+*До: default-allow-ssh/rdp из интернета*

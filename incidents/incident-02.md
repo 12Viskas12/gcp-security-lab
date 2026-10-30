@@ -78,3 +78,18 @@ INC-2026-10-02, IR-02, severity: **Высокая (ERROR); итог: попыт�
 - Текст ошибки и выдержка лога `setIamPermissions` (code 9): `evidence/sanitized-logs/`
 - Письма алертов: `evidence/screenshots/19-email-alerts.png`
 - Права и защита bucket: `evidence/screenshots/05-bucket-permissions.jpg`, `07-bucket-config.jpg`
+
+<!-- screenshots:Скриншоты -->
+## Скриншоты
+
+![Письма алертов](../evidence/screenshots/19-email-alerts.png)
+
+*Письма алертов*
+
+![Bucket: права, Public Access Prevention, UBLA](../evidence/screenshots/05-bucket-permissions.jpg)
+
+*Bucket: права, Public Access Prevention, UBLA*
+
+![Bucket: метки, шифрование, lifecycle](../evidence/screenshots/07-bucket-config.jpg)
+
+*Bucket: метки, шифрование, lifecycle*
