@@ -170,5 +170,3 @@ Tabletop: [runbooks/tabletop.md](../runbooks/tabletop.md).
 *Log bucket security-audit: retention 30 дней*
 
 ![Письма алертов](../evidence/screenshots/19-email-alerts.png)
-
-*Письма алертов*
