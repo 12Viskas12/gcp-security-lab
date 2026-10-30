@@ -1,0 +1,22 @@
+# Скопируй в terraform.tfvars (он в .gitignore) и подставь свои значения.
+# cp terraform.tfvars.example terraform.tfvars
+
+project_id  = "sec-lab-CHANGE-ME"
+region      = "europe-central2"
+alert_email = "you@example.com"
+owner_label = "student"
+
+# Для настоящего разделения обязанностей используй РАЗНЫЕ аккаунты/группы.
+security_admin_members = ["user:security-admin@example.com"]
+operator_members       = ["user:operator@example.com"]
+auditor_members        = ["user:auditor@example.com"]
+
+# Владелец лабы: нужен для verify.sh и симуляций (impersonation тестовых SA).
+tester_members = ["user:you@example.com"]
+
+# 86400 = 24 часа. 0 = выключить retention (проще удалять лабу).
+bucket_retention_seconds = 86400
+
+# Опционально: бюджет через Terraform (иначе создай через gcloud, см. docs/00).
+# billing_account = "XXXXXX-XXXXXX-XXXXXX"
+# budget_usd      = 10

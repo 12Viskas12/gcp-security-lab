@@ -1,0 +1,13 @@
+# Безопасное хранение state (рекомендация для production и после лабы).
+# 1) Создай отдельный bucket (в идеале в другом проекте) с versioning, UBLA и PAP:
+#      gcloud storage buckets create gs://CHANGE-ME-tfstate --location=europe-central2 \
+#        --uniform-bucket-level-access --public-access-prevention
+#      gcloud storage buckets update gs://CHANGE-ME-tfstate --versioning
+# 2) Скопируй этот файл в backend.tf, подставь имя bucket и выполни: terraform init -migrate-state
+# 3) Права на bucket со state выдавай только тем, кто запускает Terraform (state содержит чувствительные данные).
+terraform {
+  backend "gcs" {
+    bucket = "CHANGE-ME-tfstate"
+    prefix = "gcp-security-hard-lab"
+  }
+}
