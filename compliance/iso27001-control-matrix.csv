@@ -1,0 +1,27 @@
+control,direction,status,justification,evidence_id,missing_measures
+A.5.7,Threat intelligence,partial,"Модель угроз STRIDE с оценкой риска и пересмотром по результатам инцидентов; внешние источники угроз (feeds) не подключены",docs/threat-model.md; IR-01..IR-06,Подписка на источники угроз для GCP; регулярный пересмотр модели
+A.5.9,Инвентаризация активов,implemented,"Реестр ресурсов и identities; Cloud Asset Inventory и drift-check.sh для сверки (IR-06)",docs/asset-registry.md; scripts/drift-check.sh,Автоматическая периодическая сверка реестра
+A.5.15,Контроль доступа,implemented,"Права на данные только на bucket; три роли; Auditor без доступа к объектам; проверяется verify.sh",terraform/iam.tf; docs/iam-review.md; verify-output,Организационная политика контроля доступа
+A.5.16,Управление идентификацией,implemented,"Отдельные SA для ролей и тестов; жизненный цикл SA в Terraform; ключей нет",terraform/iam.tf; docs/asset-registry.md,Процесс отзыва при увольнении (вне лабы)
+A.5.17,Аутентификационная информация,partial,"Нет пользовательских ключей SA, impersonation; секреты не в Git (gitleaks, pre-push). MFA владельца не подтверждена",scripts/verify.sh; .github/workflows/ci.yml,Подтвердить MFA на аккаунте владельца
+A.5.18,Права доступа,implemented,"Ревью IAM до/после; снятие Editor у default compute SA; снятие избыточной роли (IR-05)",docs/iam-review.md; IR-05,Периодический регламентный пересмотр прав
+A.5.23,Безопасность облачных сервисов,partial,"Hardening GCP по коду; модель разделения ответственности описана; нет Organization Policy и SCC (нет организации)",terraform/; docs/architecture.md,Organization Policy; Security Command Center
+A.5.24,Планирование управления инцидентами,implemented,"Общий процесс реагирования, runbooks RB-001..RB-006, эскалация, экстренный доступ",runbooks/incident-response.md; runbooks/,Назначенный on-call и каналы связи
+A.5.25,Оценка событий ИБ,implemented,"Triage по алертам и логам; классификация в инцидентах",incidents/incident-01..06,Автоматическая корреляция алертов
+A.5.26,Реагирование на инциденты,implemented,"Containment, eradication, recovery по шести сценариям",incidents/incident-01..06,Интеграция с тикет-системой/SIEM
+A.5.27,Извлечение уроков,implemented,"Раздел Lessons learned в каждом инциденте; итоговые находки",incidents/; reports/final-report.md,Регулярный post-incident review
+A.5.28,Сбор доказательств,implemented,"Сырые логи с хешем, sanitized-копии, скриншоты; порядок сохранения",runbooks/incident-response.md; evidence/,Хранение доказательств в неизменяемом хранилище
+A.8.2,Привилегированные права доступа,implemented,"Нет постоянных Owner/Editor для операций (кроме владельца проекта, F-04); временный экстренный доступ",docs/iam-review.md; runbooks/emergency-access.md,Отказ от Owner у лаборанта после лабы
+A.8.3,Ограничение доступа к информации,partial,"UBLA, PAP, права на bucket минимальны; legacy-роли проектных групп на bucket (F-02) до исправления",docs/storage-security.md; evidence/screenshots/05-bucket-permissions,Снять legacy-привязки (F-02)
+A.8.8,Управление техническими уязвимостями,partial,"Конфигурационные проверки verify.sh, drift-check.sh, фиксация версий; сканирование уязвимостей ПО неприменимо (нет VM/приложений)",scripts/verify.sh; scripts/drift-check.sh,Регулярные автоматические проверки (CI по расписанию)
+A.8.9,Управление конфигурацией,implemented,"Terraform baseline, fmt/validate/plan, обнаружение дрейфа (IR-04, IR-06)",terraform/; docs/terraform-ops.md,Удалённый backend state (F-05)
+A.8.10,Удаление информации,implemented,"Lifecycle, terraform destroy, очистка проекта",terraform/storage.tf; docs/terraform-ops.md,—
+A.8.12,Предотвращение утечки данных,implemented,"Public Access Prevention, UBLA, нет публичных привязок; IR-02",terraform/storage.tf; incidents/incident-02.md,Organization Policy на публичный доступ
+A.8.13,Резервное копирование информации,partial,"Versioning с lifecycle; не полноценный backup (тот же bucket/регион/проект)",docs/storage-security.md; scripts/test-versioning.sh,Резервная копия в другой проект/регион
+A.8.15,Журналирование,implemented,"Admin Activity, Data Access (Storage, IAM), sink в security-audit; срок 30 дней (F-06)",terraform/logging.tf; evidence/screenshots/12a-12b-13,Больший срок хранения; lock log bucket; отдельный log project
+A.8.16,Мониторинг деятельности,partial,"Семь алертов и ручная процедура; нет алерта на успешное чтение CONFIDENTIAL (D-08)",terraform/monitoring.tf; detections/detection-matrix.md,Алерт/метрика на успешный доступ к CONFIDENTIAL; интеграция с SIEM
+A.8.20,Безопасность сетей,implemented,"Custom VPC, deny-all ingress, нет внешних IP, default VPC удалена",terraform/network.tf; evidence/screenshots/01-03,—
+A.8.21,Безопасность сетевых служб,not applicable,"Нет собственных сетевых служб и VPN; используются управляемые сервисы Google",—,—
+A.8.22,Сегментация сетей,partial,"Одна выделенная VPC и подсеть; сегментации внутри нет, так как нет рабочих нагрузок",terraform/network.tf,Сегментация при появлении нагрузок
+A.8.24,Использование криптографии,partial,"Шифрование at rest (Google-managed) и in transit (TLS); CMEK не используется",docs/storage-security.md,CMEK для CONFIDENTIAL по требованиям
+A.8.32,Управление изменениями,partial,"Изменения через Git и Terraform; алерты на ручные изменения IAM/сети; нет обязательного ревью (PR) в лабе",docs/terraform-ops.md; .github/workflows/ci.yml,Branch protection и обязательный ревью
