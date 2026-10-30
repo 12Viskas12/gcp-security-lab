@@ -1,9 +1,4 @@
 # GCP Security Hard Lab
-
-Практическая работа по Cloud Security Engineering / SOC / Incident Response / DevSecOps на Google Cloud Platform. Стандарт: ISO/IEC 27001:2022 (учебное сопоставление).
-
-Всё выполнялось **только в отдельном тестовом проекте GCP** с синтетическими данными.
-
 ## Структура
 
 | Путь | Содержимое |
