@@ -85,7 +85,7 @@ perm_project() { # sa, permission
 }
 perm_bucket() { # sa, permission
   local tok; tok=$(gcloud auth print-access-token --impersonate-service-account="$1" 2>/dev/null) || return 2
-  curl -s -H "Authorization: Bearer ${tok}" -H "x-goog-user-project: ${PROJECT_ID}" \
+  curl -s -H "Authorization: Bearer ${tok}" \
     "https://storage.googleapis.com/storage/v1/b/${BUCKET}/iam/testPermissions?permissions=$2" | grep -q "\"$2\""
 }
 role_check() { # описание, функция, sa, permission, ожидание(yes|no)
