@@ -35,8 +35,9 @@ INC-2026-10-01, IR-01, severity: **Высокая (ERROR)**.
 | --- | --- | --- |
 | 23:35:17 | Изменение IAM bucket (`storage.setIamPermissions`), актор — владелец лабы | Admin Activity |
 | ≈23:35 | Письма `SEC \| Cloud Storage bucket policy/config changed` и `SEC \| IAM policy changed` | Gmail, Monitoring |
-| после изменения | Identity прочитала синтетический CONFIDENTIAL CSV (подтверждение влияния) | Вывод команды, Data Access |
-| после отката | Повторная проверка: доступ отклонён (403), `verify.sh` без ошибок | Терминал |
+| 23:35 | Успешные `storage.objects.get` (4 записи, code 0) и 6 выпусков токена (impersonation): подтверждение влияния | Data Access |
+| 23:37:03 | Откат: повторный `storage.setIamPermissions` (code 0) | Admin Activity |
+| 23:37 | Повторное чтение отклонено (2 записи `storage.objects.get`, code 7); `verify.sh` без ошибок | Data Access, Терминал |
 
 ## 3. Подтверждённые события и источники
 
@@ -61,7 +62,7 @@ Identity без прав на данные получила чтение CONFIDE
 
 ## 6. Containment
 
-Выдана привязка удалена (`remove-iam-policy-binding`). Окно экспозиции — время между добавлением и откатом.
+Выдана привязка удалена (`remove-iam-policy-binding`). Окно экспозиции ≈1 мин 46 с (23:35:17 → 23:37:03).
 
 ## 7. Root cause
 
@@ -81,6 +82,7 @@ Identity без прав на данные получила чтение CONFIDE
 
 ## Доказательства
 
+- Выписка Admin Activity: `evidence/sanitized-logs/ir-01-iam-change.json`
 - Письма алертов: `evidence/screenshots/19-email-alerts.png`, `19-email-alerts-phone.png`
 - Лог `setIamPermissions` с `bindingDeltas`, IAM-политика до/после, вывод `terraform plan` (exit 0), вывод `verify.sh` после отката — в `evidence/sanitized-logs/`
 

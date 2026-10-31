@@ -30,9 +30,9 @@ INC-2026-10-04, IR-04, severity: **Критическая (CRITICAL)**.
 
 | Время UTC | Событие | Источник |
 | --- | --- | --- |
-| ≈23:40 | Изменение audit config (exempted member для DATA_READ Storage); письмо CRITICAL `SEC \| Audit configuration changed` | Admin Activity (Resource Manager), Gmail |
+| 23:40:04 | Изменение audit config (exempted member для DATA_READ Storage); письмо CRITICAL `SEC \| Audit configuration changed` | Admin Activity (Resource Manager), Gmail |
 | — | `terraform plan` показал дрейф (exit 2) | Терминал |
-| +≈1 мин 52 с | Возврат audit config через `terraform apply` | Admin Activity |
+| 23:41:56 (+1 мин 52 с) | Возврат audit config через `terraform apply` | Admin Activity |
 
 ## 3. Подтверждённые события и источники
 
@@ -75,6 +75,7 @@ Audit config возвращён из Terraform; exempted member удалён.
 
 ## Доказательства
 
+- Выписка Admin Activity (две записи `SetIamPolicy` с `auditConfigDeltas`: 23:40:04 и 23:41:56 UTC 29.10; более ранние относятся к развёртыванию): `evidence/sanitized-logs/ir-04-audit-config.json`
 - Письмо CRITICAL: `evidence/screenshots/19-email-alerts.png`
 - Конфигурация аудита: `evidence/screenshots/12a-audit-storage.png`, `12b-audit-iam.png`
 - `auditConfigDeltas`, `terraform plan` до и после — `evidence/sanitized-logs/`

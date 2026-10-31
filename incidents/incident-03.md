@@ -33,8 +33,9 @@ INC-2026-10-03, IR-03, severity: **Средняя (WARNING); повышаетс�
 
 | Время UTC | Событие | Источник |
 | --- | --- | --- |
-| ≈23:28 | Выпуск токена `sa-app-reader` и `sa-no-access` (impersonation) | `iamcredentials`, Data Access |
-| ≈23:28 | Успешные `storage.objects.get` (чтение объектов) и `PERMISSION_DENIED` для identity без прав | Data Access |
+| 23:27–23:28 | Выпуск токенов `sa-app-reader` и `sa-no-access` (`GenerateAccessToken`, code 0) | `iamcredentials`, Data Access |
+| 23:27 | Успешные `storage.objects.get` (2 записи, code 0): чтение двух объектов под `sa-app-reader` | Data Access |
+| 23:27–23:28 | `PERMISSION_DENIED` для `sa-no-access`: 2 записи с code 7 на серию из 5 попыток | Data Access |
 | ≈23:28–23:29 | Письма `SEC \| Service account token generated (impersonation)` и `SEC \| Cloud Storage PERMISSION_DENIED` | Gmail, Monitoring |
 
 ## 3. Подтверждённые события и источники
@@ -51,7 +52,7 @@ INC-2026-10-03, IR-03, severity: **Средняя (WARNING); повышаетс�
 | Гипотеза | Как проверена | Результат |
 | --- | --- | --- |
 | Чтение штатное (разрешено ролью objectViewer) | Роль `sa-app-reader` на bucket | Да, но чтение CONFIDENTIAL не алертится |
-| Разведка identity без прав | Серия отказов от `sa-no-access` | Алерт D-05 сработал |
+| Разведка identity без прав | Отказы `sa-no-access` в Data Access | В логе 2 записи code 7 на 5 попыток; алерт D-05 сработал |
 | Достаточно ли телеметрии | Есть principal, delegation, объект, IP, время, код | Достаточно для атрибуции; нет содержимого и объёма |
 
 ## 5. Оценка влияния
@@ -80,6 +81,7 @@ Data Access логи дают атрибуцию (кто, что, когда, о
 
 ## Доказательства
 
+- Выписки Data Access: `evidence/sanitized-logs/ir-03-object-access.json`, `ir-03-token.json` (в файлах также записи других сценариев и запусков `verify.sh`, фильтруй по времени 23:27–23:29 UTC 29.10)
 - Выдержка Data Access (успех и отказ) и `GenerateAccessToken`: `evidence/sanitized-logs/`
 - Письма алертов: `evidence/screenshots/19-email-alerts.png`
 

@@ -31,9 +31,11 @@ INC-2026-10-05, IR-05, severity: **Высокая (ERROR)**.
 
 | Время UTC | Событие | Источник |
 | --- | --- | --- |
-| ≈23:46 | Создание `sa-overprivileged` и выдача `roles/storage.admin` на проект | Admin Activity (IAM, SetIamPolicy) |
+| 23:45:40 | Создание `sa-overprivileged` (`CreateServiceAccount`) | Admin Activity (IAM) |
+| 23:45:44 | `SetIamPolicy` на проект: выдача `roles/storage.admin` | Admin Activity (Resource Manager) |
 | ≈23:46 | Письмо `SEC \| Service account or key management event` | Gmail, Monitoring |
-| после | Анализ прав; снятие роли; удаление SA | Admin Activity |
+| после | Анализ прав; снятие роли | Admin Activity |
+| 23:47:07 | Удаление `sa-overprivileged` (`DeleteServiceAccount`) | Admin Activity (IAM) |
 | после | Найдена и снята `roles/editor` у default compute service account | IAM-политика проекта |
 
 ## 3. Подтверждённые события и источники
@@ -77,6 +79,7 @@ INC-2026-10-05, IR-05, severity: **Высокая (ERROR)**.
 
 ## Доказательства
 
+- Выписки Admin Activity: `evidence/sanitized-logs/ir-05-sa-events.json`, `ir-05-project-iam.json` (в последнем также записи других сценариев и развёртывания)
 - Письмо алерта: `evidence/screenshots/19-email-alerts.png`
 - Политика проекта после: `evidence/screenshots/11-iam-principals.png`
 - Вывод `get-iam-policy` до и после — `evidence/sanitized-logs/`

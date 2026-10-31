@@ -14,10 +14,10 @@
 В сети лаборатории создаётся ресурс вне Terraform (временное firewall-правило, разрешающее внешний вход). VM нет, публичных ресурсов не создаётся. Нужно обнаружить расхождение с принятой архитектурой по инвентаризации или дрейфу, оценить экспозицию, сдержать и проверить.
 
 ```bash
-gcloud compute firewall-rules create tmp-ir06-allow-ssh --network=lab-vpc --direction=INGRESS --action=ALLOW --rules=tcp:22 --source-ranges=0.0.0.0/0 --priority=1000
+gcloud compute firewall-rules create lab-tmp-allow-ssh --network=lab-vpc --direction=INGRESS --action=ALLOW --rules=tcp:22 --source-ranges=0.0.0.0/0 --priority=1000
 bash scripts/drift-check.sh                                   # terraform plan + Asset Inventory
 gcloud compute instances list; gcloud compute addresses list    # что это правило открывает
-gcloud compute firewall-rules delete tmp-ir06-allow-ssh --quiet
+gcloud compute firewall-rules delete lab-tmp-allow-ssh --quiet
 ```
 
 ## 1. Incident ID и severity
@@ -28,11 +28,11 @@ INC-2026-10-06, IR-06, severity: **Средняя (ERROR)**.
 
 | Время UTC | Событие | Источник |
 | --- | --- | --- |
-| — | Создание временного firewall-правила вне Terraform | Admin Activity (Compute) |
+| 23:47:40 | Создание правила `lab-tmp-allow-ssh` вне Terraform (`compute.firewalls.insert`) | Admin Activity (Compute) |
 | — | `terraform plan`: exit 0, ресурс не виден | Терминал |
 | — | Правило найдено инвентаризацией (`firewall-rules list`, Asset Inventory) | gcloud |
 | — | Алерта на изменение firewall не было | Monitoring |
-| — | Правило удалено | Admin Activity |
+| 23:49:34 | Правило удалено (`compute.firewalls.delete`) | Admin Activity |
 
 ## 3. Подтверждённые события и источники
 
@@ -40,6 +40,7 @@ INC-2026-10-06, IR-06, severity: **Средняя (ERROR)**.
 | --- | --- | --- |
 | Что создано | `compute.firewalls.insert` | Правило ingress tcp:22 из `0.0.0.0/0` |
 | Видит ли Terraform | `terraform plan -detailed-exitcode` | exit 0: ресурсы вне конфигурации не обнаруживаются |
+| Время жизни правила | `insert` → `delete` | ≈1 мин 54 с (23:47:40 → 23:49:34) |
 | Экспозиция | `instances list`, `addresses list` | VM и внешних IP нет: фактической экспозиции нет |
 | Алерт | Monitoring | Не сработал: детекта на сетевые изменения тогда не было |
 
@@ -77,6 +78,7 @@ INC-2026-10-06, IR-06, severity: **Средняя (ERROR)**.
 
 ## Доказательства
 
+- Выписка Admin Activity (`insert` 23:47:40 и `delete` 23:49:34 UTC 29.10; записи 19:59 и 21:18 относятся к развёртыванию и удалению default VPC): `evidence/sanitized-logs/ir-06-firewall.json`
 - Список правил firewall и вывод `drift-check.sh` — `evidence/sanitized-logs/`
 - Правила firewall до исправлений: `evidence/screenshots/02-firewall-before.jpg`
 
