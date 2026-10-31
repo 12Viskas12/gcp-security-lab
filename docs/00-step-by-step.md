@@ -97,7 +97,7 @@ export PROJECT_ID="твой-project-id"
 bash scripts/verify.sh | tee evidence/verify-output.txt
 ```
 
-Скрипт проверяет (в том числе разделение трёх ролей через `testIamPermissions`): UBLA, Public Access Prevention, анонимный доступ (ожидается 401/403), права `sa-app-reader` и `sa-no-access`, отсутствие default VPC, внешних IP и пользовательских ключей service accounts, наличие audit config.
+`verify.sh` проверяет: UBLA, Public Access Prevention, анонимный доступ (401/403), права `sa-app-reader` и `sa-no-access`, разделение трёх ролей (`testIamPermissions`), отсутствие default VPC, внешних IP и ключей SA, наличие audit config.
 Все проверки должны быть `PASS`. Любой `FAIL` разбери и отрази в отчёте.
 
 Проверь вручную в консоли и сделай скриншоты: Logs Explorer (Admin Activity), Monitoring → Alerting, Cloud Storage → bucket → Permissions.
@@ -137,7 +137,7 @@ cd terraform
 terraform destroy
 ```
 
-Если destroy падает на объектах из-за retention policy, дождись окончания срока (по умолчанию 24 ч) или выставь `bucket_retention_seconds = 0` и повтори. Затем проверь в консоли, что ничего не осталось, и при необходимости удали проект: `gcloud projects delete "$PROJECT_ID"`.
+Если destroy падает из-за retention policy, подожди окончания срока (по умолчанию 24 ч) или поставь `bucket_retention_seconds = 0` и повтори. Затем проверь консоль и при необходимости удали проект: `gcloud projects delete "$PROJECT_ID"`.
 
 ## Шаг 12. Публикация на GitHub
 

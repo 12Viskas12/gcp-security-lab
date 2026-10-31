@@ -1,9 +1,3 @@
-# Admin Activity логи включены всегда и не отключаются.
-# Data Access логи включаем точечно, по нужным сервисам (не allServices: ради стоимости).
-#
-# Важно: iamcredentials.googleapis.com не поддерживает настройку аудита на уровне сервиса.
-# Аудит IAM Service Account Credentials API (GenerateAccessToken и др.) настраивается
-# через iam.googleapis.com, поэтому отдельной записи для iamcredentials здесь нет.
 
 locals {
   data_access_audit = {
@@ -28,7 +22,6 @@ resource "google_project_iam_audit_config" "services" {
   depends_on = [google_project_service.apis]
 }
 
-# Отдельный log bucket для аудита + Log Analytics (SQL по логам).
 resource "google_logging_project_bucket_config" "security" {
   project          = var.project_id
   location         = var.log_bucket_location
@@ -37,8 +30,6 @@ resource "google_logging_project_bucket_config" "security" {
   enable_analytics = true
   description      = "Централизованные аудит-логи лаборатории"
 
-  # После terraform import провайдер хранит project как "projects/<id>" и требует замены ресурса
-  # (ForceNew). Удалять и пересоздавать log bucket нельзя: имя блокируется после удаления.
   lifecycle {
     ignore_changes = [project]
   }

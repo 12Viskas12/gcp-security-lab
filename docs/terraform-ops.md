@@ -35,7 +35,7 @@ CI (`.github/workflows/ci.yml`) повторяет `fmt -check`, `init -backend=
 - не коммитить и не пересылать в открытом виде;
 - для работы вдвоём/на нескольких машинах и для production использовать удалённый backend (`terraform/backend.tf.example`: GCS bucket с versioning, UBLA, PAP, права только исполнителям Terraform и блокировка state).
 
-**Реальный случай в этой лабе:** при смене компьютера локальный state потерялся. Ресурсы остались в облаке, и состояние пришлось восстанавливать импортом (`scripts/import-existing.sh`). Выводы: backend обязателен; `google_storage_bucket_object` импортировать нельзя (пересоздаются новой версией); после импорта проверять `plan` на `must be replaced` (log bucket потребовал `ignore_changes = [project]`). Находка F-05.
+**Реальный случай:** при смене компьютера потерялся локальный state, и его пришлось восстанавливать импортом (`import-existing.sh`). Выводы: нужен remote backend; `google_storage_bucket_object` не импортируется (пересоздаётся); после импорта проверять `plan` на `must be replaced` (log bucket потребовал `ignore_changes = [project]`). Находка F-05.
 
 ## Порядок удаления инфраструктуры
 

@@ -11,8 +11,6 @@ resource "google_monitoring_notification_channel" "email" {
 }
 
 locals {
-  # Детекции = log-based alert policies (condition_matched_log): срабатывают прямо по записи в логе.
-  # Фильтры без обратных слэшей, чтобы не мучиться с экранированием.
   detections = {
     iam_policy_change = {
       title    = "IAM policy changed"
@@ -78,7 +76,6 @@ resource "google_monitoring_alert_policy" "detections" {
   notification_channels = [google_monitoring_notification_channel.email.id]
 
   alert_strategy {
-    # Для log-based алертов лимит частоты уведомлений обязателен.
     notification_rate_limit {
       period = "300s"
     }
@@ -93,7 +90,6 @@ resource "google_monitoring_alert_policy" "detections" {
   depends_on = [google_project_service.apis]
 }
 
-# Опциональный бюджет через Terraform. Основной путь: gcloud billing budgets create до начала работ.
 resource "google_billing_budget" "lab" {
   count = var.billing_account == "" ? 0 : 1
 

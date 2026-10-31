@@ -6,13 +6,12 @@ resource "google_storage_bucket" "data" {
   storage_class               = "STANDARD"
   uniform_bucket_level_access = true
   public_access_prevention    = "enforced"
-  force_destroy               = true # только для лабы, чтобы destroy очищал bucket
+  force_destroy               = true
 
   versioning {
     enabled = true
   }
 
-  # Soft delete выключен ради стоимости: восстановление обеспечивает versioning.
   soft_delete_policy {
     retention_duration_seconds = 0
   }
@@ -21,11 +20,10 @@ resource "google_storage_bucket" "data" {
     for_each = var.bucket_retention_seconds > 0 ? [1] : []
     content {
       retention_period = var.bucket_retention_seconds
-      is_locked        = false # осознанно: locked-политику нельзя снять
+      is_locked        = false
     }
   }
 
-  # Стоимость: старые версии удаляются, редко читаемые данные уходят в NEARLINE.
   lifecycle_rule {
     condition {
       days_since_noncurrent_time = var.noncurrent_version_retention_days
@@ -56,13 +54,12 @@ resource "google_storage_bucket" "data" {
   }
 
   labels = merge(local.common_labels, {
-    data_classification = "confidential" # bucket содержит и internal, и confidential: берём высший уровень
+    data_classification = "confidential"
   })
 
   depends_on = [google_project_service.apis]
 }
 
-# Синтетические данные. Никаких реальных персональных данных.
 resource "google_storage_bucket_object" "internal_sample" {
   bucket       = google_storage_bucket.data.name
   name         = "internal/employee-directory-SYNTHETIC.csv"

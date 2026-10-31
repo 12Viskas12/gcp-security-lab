@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-# Проверка восстановления объекта после перезаписи (versioning). Работает на ОТДЕЛЬНОМ тестовом объекте.
-# Использование: PROJECT_ID=... bash scripts/test-versioning.sh | tee evidence/sanitized-logs/versioning-test.txt
 set -uo pipefail
 : "${PROJECT_ID:?Задай PROJECT_ID}"
 B="gs://${PROJECT_ID}-lab-data"

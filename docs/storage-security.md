@@ -24,7 +24,7 @@ curl -s -o /dev/null -w '%{http_code}\n' "https://storage.googleapis.com/${BUCKE
 bash scripts/verify.sh      # sa-app-reader читает, не пишет; sa-no-access не читает; Auditor не читает; Operator не удаляет
 ```
 
-Результат: последний полный прогон `verify.sh` — PASS=20, FAIL=0 (анонимный доступ 403; `sa-app-reader` читает, но не пишет; `sa-no-access` не читает).
+Результат: последний полный прогон `verify.sh` — PASS=31, FAIL=0 (анонимный доступ 403; `sa-app-reader` читает, но не пишет; `sa-no-access` не читает).
 
 ## Кто может удалять и изменять объекты
 
@@ -43,7 +43,7 @@ gcloud storage buckets get-iam-policy "gs://${BUCKET}" --format='table(bindings.
 
 ### Находка F-02: унаследованные legacy-роли
 
-При создании bucket GCP добавляет привязки `projectOwner/projectEditor/projectViewer` с Storage Legacy ролями (`storage.legacyBucketOwner/Reader`, `legacyObjectOwner/Reader`). Это противоречит минимальным привилегиям: под CONFIDENTIAL читают и меняют данные те, кому они не нужны.
+При создании bucket GCP добавляет `projectOwner/Editor/Viewer` с Storage Legacy ролями. Это противоречит минимальным привилегиям: CONFIDENTIAL читают и меняют те, кому он не нужен.
 
 Исправление (после завершения симуляций, чтобы не смешивать со следами IR-01…IR-06):
 
@@ -76,7 +76,7 @@ bash scripts/test-versioning.sh | bash scripts/sanitize.sh > evidence/sanitized-
 
 ## Ограничения
 
-UBLA в течение 90 дней после включения можно отключить (затем блокируется); PAP на bucket может снять тот, у кого есть `storage.buckets.update`; поэтому детект D-02 обязателен. На уровне организации контроль закрепляется Organization Policy `storage.publicAccessPrevention` и `storage.uniformBucketLevelAccess`.
+UBLA можно отключить в течение 90 дней после включения; PAP снимает любой с `storage.buckets.update`, поэтому детект D-02 обязателен. На уровне организации это закрепляют политики `storage.publicAccessPrevention` и `storage.uniformBucketLevelAccess`.
 
 <!-- screenshots:Скриншоты -->
 ## Скриншоты

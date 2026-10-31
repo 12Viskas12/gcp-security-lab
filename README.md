@@ -22,9 +22,9 @@ gcloud auth login && gcloud auth application-default login
 gcloud config set project PROJECT_ID
 gcloud auth application-default set-quota-project PROJECT_ID
 cd terraform
-cp terraform.tfvars.example terraform.tfvars        # задай project_id, alert_email, tester_members
+cp terraform.tfvars.example terraform.tfvars
 terraform init && terraform plan -out=tfplan && terraform apply tfplan
-cd .. && PROJECT_ID=PROJECT_ID bash scripts/verify.sh   # ожидается FAIL=0
+cd .. && PROJECT_ID=PROJECT_ID bash scripts/verify.sh
 ```
 
 Подробно: [docs/00-step-by-step.md](docs/00-step-by-step.md). Удаление: [docs/terraform-ops.md](docs/terraform-ops.md).
@@ -38,11 +38,11 @@ cd .. && PROJECT_ID=PROJECT_ID bash scripts/verify.sh   # ожидается FAI
 
 ## Безопасность репозитория
 
-Не коммить `terraform.tfvars`, `*.tfstate`, ключи SA, токены. `.gitignore`, `scripts/pre-push-check.sh` и CI (gitleaks) это блокируют. Перед публикацией evidence очищается `scripts/sanitize.sh` и просматривается вручную (email, project ID, IP, billing account).
+Не коммить `terraform.tfvars`, `*.tfstate`, ключи SA и токены. Это блокируют `.gitignore`, `pre-push-check.sh` и CI (gitleaks). Evidence очищается `sanitize.sh` и просматривается вручную.
 
 ## Оговорка
 
-Terraform-код и документы — рабочая основа; результаты расследований, оценки и итоговые статусы основаны на фактах моего запуска. Перед использованием проверь актуальные версии провайдера, доступность сервисов и цены.
+Результаты основаны на фактическом запуске в тестовом проекте GCP.
 
 <!-- screenshots:Скриншоты -->
 ## Скриншоты

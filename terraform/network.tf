@@ -1,4 +1,3 @@
-# VPC в custom mode: нет автоматических подсетей, нет default-сети.
 resource "google_compute_network" "lab" {
   project                 = var.project_id
   name                    = "lab-vpc"
@@ -9,7 +8,6 @@ resource "google_compute_network" "lab" {
   depends_on = [google_project_service.apis]
 }
 
-# Единственная приватная подсеть. Внешние IP не создаются нигде.
 resource "google_compute_subnetwork" "private" {
   project                  = var.project_id
   name                     = "lab-private-${var.region}"
@@ -25,7 +23,6 @@ resource "google_compute_subnetwork" "private" {
   }
 }
 
-# Явный deny-all на вход с логированием (виден в логах любой дальнейший эксперимент).
 resource "google_compute_firewall" "deny_all_ingress" {
   project     = var.project_id
   name        = "lab-deny-all-ingress"

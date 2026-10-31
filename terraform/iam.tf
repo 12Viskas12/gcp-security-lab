@@ -1,4 +1,3 @@
-# ---------- Service accounts (без ключей: ключи не создаются) ----------
 
 resource "google_service_account" "app_reader" {
   project      = var.project_id
@@ -24,8 +23,6 @@ resource "google_storage_bucket_iam_member" "app_reader_objects" {
   member = "serviceAccount:${google_service_account.app_reader.email}"
 }
 
-# ---------- Кастомная роль Operator: читать/создавать объекты, без удаления и без IAM ----------
-
 resource "google_project_iam_custom_role" "lab_operator" {
   project     = var.project_id
   role_id     = "labOperator"
@@ -41,10 +38,6 @@ resource "google_project_iam_custom_role" "lab_operator" {
   depends_on = [google_project_service.apis]
 }
 
-# ---------- Привязки по ролям ----------
-
-# Три роли лабы реализованы отдельными service accounts (без ключей). Люди/группы из tfvars
-# добавляются к ним. Лаборант действует от их имени через impersonation (tester_members).
 locals {
   role_holder_sas = {
     security_admin = "lab-security-admin"
@@ -52,7 +45,6 @@ locals {
     auditor        = "lab-auditor"
   }
 
-  # Email задаётся строкой, а не атрибутом ресурса: так ключи for_each известны на этапе plan.
   role_holder_members = {
     for k, v in local.role_holder_sas : k => "serviceAccount:${v}@${var.project_id}.iam.gserviceaccount.com"
   }
@@ -74,7 +66,6 @@ resource "google_service_account" "role_holders" {
 }
 
 locals {
-  # Уровень проекта: только то, что нельзя выдать уже на уровне ресурса.
   project_roles = {
     security_admin = {
       members = local.security_admin_all
@@ -108,7 +99,6 @@ locals {
     }
   ]...)
 
-  # Уровень bucket: права на данные выдаются только здесь. У Auditor прав на данные нет.
   bucket_roles = {
     security_admin = {
       members = local.security_admin_all
@@ -148,7 +138,6 @@ resource "google_storage_bucket_iam_member" "role_bindings" {
   depends_on = [google_service_account.role_holders, google_project_iam_custom_role.lab_operator]
 }
 
-# Operator может получать токен ТОЛЬКО для sa-app-reader (impersonation вместо ключей).
 resource "google_service_account_iam_member" "operator_impersonates_reader" {
   for_each = toset(local.operator_all)
 
@@ -158,11 +147,6 @@ resource "google_service_account_iam_member" "operator_impersonates_reader" {
 
   depends_on = [google_service_account.role_holders]
 }
-
-# ---------- Тестовый стенд ----------
-# Лаборант (владелец лабы) получает TokenCreator на ОБА тестовых SA: без этого нельзя ни
-# выполнить scripts/verify.sh, ни симулировать IR-03 от имени sa-no-access.
-# Basic-роль Owner сама по себе не даёт права выпускать токены SA.
 
 locals {
   test_sas = {

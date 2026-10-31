@@ -1,9 +1,4 @@
 #!/usr/bin/env bash
-# Восстановление terraform.tfstate, если файл потерян (например, смена компьютера).
-# Импортирует в state ресурсы, которые УЖЕ созданы в проекте. Запуск из папки terraform/:
-#   cd terraform && bash ../scripts/import-existing.sh
-# Нужны: terraform init выполнен, terraform.tfvars на месте, python3, curl, gcloud auth.
-# Ошибки отдельных импортов не фатальны (ресурса может не быть): итог проверяется через terraform plan.
 set -uo pipefail
 
 get() { # имя переменной из terraform.tfvars (строковое значение)
@@ -47,7 +42,6 @@ imp google_compute_firewall.deny_all_ingress "projects/${P}/global/firewalls/lab
 imp google_storage_bucket_object.internal_sample "${B}/internal/employee-directory-SYNTHETIC.csv"
 imp google_storage_bucket_object.confidential_sample "${B}/confidential/finance-report-SYNTHETIC.csv"
 
-# IAM-привязки. Ключи как в iam.tf: группа|member|роль. Если в tfvars у тебя другие члены, поправь MEMBER.
 proj_sa="security_admin:roles/iam.securityReviewer roles/logging.configWriter roles/logging.viewer roles/monitoring.alertPolicyEditor roles/monitoring.viewer"
 proj_op="operator:roles/monitoring.viewer"
 proj_au="auditor:roles/iam.securityReviewer roles/logging.privateLogViewer roles/monitoring.viewer roles/compute.networkViewer"
@@ -62,7 +56,6 @@ imp "google_service_account_iam_member.operator_impersonates_reader[\"${MEMBER}\
 imp "google_service_account_iam_member.tester_token_creator[\"app_reader|${MEMBER}\"]" "${SA_R_N} roles/iam.serviceAccountTokenCreator ${MEMBER}"
 imp "google_service_account_iam_member.tester_token_creator[\"no_access|${MEMBER}\"]" "${SA_N_N} roles/iam.serviceAccountTokenCreator ${MEMBER}"
 
-# Мониторинг: id каналов и политик берём через REST API.
 TOKEN=$(gcloud auth print-access-token)
 api() { curl -s -H "Authorization: Bearer ${TOKEN}" -H "x-goog-user-project: ${P}" "https://monitoring.googleapis.com/v3/projects/${P}/$1"; }
 ch=$(api notificationChannels | python3 -c 'import sys,json

@@ -4,7 +4,7 @@
 
 ## 1. Executive Summary
 
-В отдельном тестовом проекте GCP развёрнута и проверена инфраструктура безопасности: custom VPC без внешних IP, bucket с синтетическими данными (UBLA, Public Access Prevention, versioning, lifecycle), IAM с разделением трёх ролей и без долгоживущих ключей, централизованное логирование (Admin Activity, Data Access для Storage и IAM, отдельный log bucket) и log-based алерты с email. Проверка конфигурации `scripts/verify.sh` проходит без ошибок (последний полный прогон: PASS=20, FAIL=0). Проведено шесть расследований (IR-01…IR-06): алерты приходят примерно через минуту после события. Главные находки: default VPC с открытыми SSH/RDP и Editor у default compute SA создаются автоматически при включении Compute API; на bucket унаследованы legacy-роли проектных групп; `terraform plan` не видит ручные IAM-привязки и ресурсы вне кода; алерта на успешное чтение CONFIDENTIAL нет; по итогам IR-06 добавлен детект на изменения сети и compute. Учебное сопоставление ISO 27001: 15 контролей реализовано, 10 частично, 1 неприменим.
+В тестовом проекте GCP развёрнута и проверена инфраструктура безопасности: custom VPC без внешних IP, bucket с синтетическими данными (UBLA, PAP, versioning, lifecycle), IAM с тремя разделёнными ролями без ключей, логирование (Admin Activity, Data Access для Storage и IAM, отдельный log bucket) и log-based алерты с email. `scripts/verify.sh` проходит без ошибок (PASS=31, FAIL=0). Проведено шесть расследований (IR-01…IR-06), алерты приходят примерно через минуту. Главные находки: default VPC с открытыми SSH/RDP и Editor у default compute SA появляются сами при включении Compute API; на bucket унаследованы legacy-роли; `terraform plan` не видит ручные IAM-привязки и ресурсы вне кода; алерта на успешное чтение CONFIDENTIAL нет; по итогам IR-06 добавлен детект на изменения сети. ISO 27001 (учебное сопоставление): 15 реализовано, 10 частично, 1 неприменим.
 
 ## 2. Scope и архитектура
 
@@ -35,7 +35,7 @@
 
 ## 6. IAM review
 
-Матрица доступа, обоснования, сравнение до/после: [docs/iam-review.md](../docs/iam-review.md). Результаты: снят Editor у default compute SA, снята избыточная роль SA (IR-05), в политике проекта остался только владелец лабы; разделение ролей проверяется `verify.sh`.
+Матрица доступа и сравнение до/после: [docs/iam-review.md](../docs/iam-review.md). Снят Editor у default compute SA, снята избыточная роль SA (IR-05), в политике проекта остался только владелец; разделение ролей проверяет `verify.sh`.
 
 ## 7. Storage security
 
@@ -73,7 +73,7 @@ Tabletop: [runbooks/tabletop.md](../runbooks/tabletop.md).
 
 ## 10. ISO control mapping
 
-[compliance/iso27001-control-matrix.csv](../compliance/iso27001-control-matrix.csv): реализовано 15, частично 10, неприменимо 1 (всего 26 контролей). Это учебное сопоставление: применимость определяется Statement of Applicability организации.
+[compliance/iso27001-control-matrix.csv](../compliance/iso27001-control-matrix.csv): реализовано 15, частично 10, неприменимо 1 (всего 26). Сопоставление учебное.
 
 ## 11. Risk register (остаточные риски)
 

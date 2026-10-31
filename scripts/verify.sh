@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-# Проверка конфигурации лаборатории. Запускать с учётными данными владельца тестового проекта.
-# Использование: PROJECT_ID=my-project bash scripts/verify.sh
 set -uo pipefail
 
 : "${PROJECT_ID:?Задай PROJECT_ID}"
@@ -24,7 +22,6 @@ expect_success() { # описание, команда...
   local d="$1"; shift
   if "$@" >/dev/null 2>&1; then ok "$d"; else bad "$d"; fi
 }
-# Отказ засчитывается, только если команда упала именно с ошибкой доступа (а не по другой причине).
 expect_denied() { # описание, команда...
   local d="$1"; shift
   local out
@@ -77,7 +74,6 @@ SA_SECADM="lab-security-admin@${PROJECT_ID}.iam.gserviceaccount.com"
 SA_OPER="lab-operator@${PROJECT_ID}.iam.gserviceaccount.com"
 SA_AUD="lab-auditor@${PROJECT_ID}.iam.gserviceaccount.com"
 
-# Возвращает 0, если у SA есть разрешение; 1, если нет; 2, если токен получить не удалось.
 perm_project() { # sa, permission
   local tok; tok=$(gcloud auth print-access-token --impersonate-service-account="$1" 2>/dev/null) || return 2
   curl -s -X POST -H "Authorization: Bearer ${tok}" -H "Content-Type: application/json" -H "x-goog-user-project: ${PROJECT_ID}" \

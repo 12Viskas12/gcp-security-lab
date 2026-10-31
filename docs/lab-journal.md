@@ -4,7 +4,7 @@
 
 ## Итог в двух словах
 
-Развёрнута и проверена инфраструктура безопасности GCP (VPC, Cloud Storage, IAM, аудит и детекты), проведены шесть расследований, оформлены runbooks, матрица ISO 27001 и финальный отчёт. Бюджет 10 USD, расход на момент снимка $0.00 (`evidence/screenshots/10-budget.png`).
+Развёрнута и проверена инфраструктура безопасности GCP, проведены шесть расследований, оформлены runbooks, матрица ISO 27001 и отчёт. Бюджет 10 USD, расход на момент снимка $0.00 (`evidence/screenshots/10-budget.png`).
 
 ## Хронология
 
@@ -13,7 +13,7 @@
 | 1. Инструменты и вход | `gcloud`, `terraform`, `git`; `gcloud auth login`, ADC | ADC: «cloud-platform scope is required but not consented» — повторил вход и отметил все разрешения |
 | 2. Проект и billing | Проект `sec-lab-…`, billing, регион `europe-central2` | Без проблем |
 | 3. Бюджет до развёртывания | Бюджет 10 USD, пороги 50/90/100% (только уведомления) | Скриншот `10-budget.png` |
-| 4. Terraform apply | `init/validate/plan/apply` | Три ошибки первого apply (мои баги в коде): custom role требует включённого IAM API → `depends_on`; аудит `iamcredentials` не настраивается отдельно → убрал, аудит через `iam.googleapis.com`; алерты метрик без `resource.type` → перешёл на log-based алерты |
+| 4. Terraform apply | `init/validate/plan/apply` | Три ошибки первого apply (мои): custom role требует IAM API → `depends_on`; аудит `iamcredentials` отдельно не настраивается → через `iam.googleapis.com`; метрические алерты без `resource.type` → log-based алерты |
 | 5. `verify.sh` | Первый прогон FAIL=3 | default VPC создана автоматически Compute API → удалил; impersonation не работал → `tester_members` (TokenCreator); `verify.sh` ужесточён |
 | 6. Смена компьютера | Новый ноутбук, локальный state не перенесён | Восстановление: `scripts/import-existing.sh`; log bucket требовал `ignore_changes = [project]` (иначе замена); объекты не импортируются |
 | 7. Роли | Три SA-носителя ролей, проверка `testIamPermissions` в `verify.sh` | Разделение ролей по условию задания требовало отдельных identity; с одним аккаунтом это реализовано service accounts |

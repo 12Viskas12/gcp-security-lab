@@ -32,7 +32,7 @@ bash scripts/sanitize.sh evidence/raw/<id>-log.json > evidence/sanitized-logs/<i
 
 ## 3. Containment (L2 / Cloud Security Engineer)
 
-Минимально необходимое действие, обратимое и записанное: отозвать лишнюю привязку, отключить SA (`gcloud iam service-accounts disable`), удалить подозрительное правило, вернуть политику bucket. Не удаляй логи и не отключай аудит.
+Минимальное обратимое действие с записью: отозвать лишнюю привязку, отключить SA (`gcloud iam service-accounts disable`), удалить подозрительное правило, вернуть политику bucket. Не удаляй логи и не отключай аудит.
 
 ## 4. Устранение причины (Eradication)
 

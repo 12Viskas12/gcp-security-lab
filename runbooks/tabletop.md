@@ -2,7 +2,7 @@
 
 ## Сценарий
 
-SOC L1 получает алерт `SEC | Cloud Storage PERMISSION_DENIED` от identity `sa-no-access`, а затем алерт `SEC | Service account token generated (impersonation)`. В логах Data Access видно чтение `confidential/finance-report-SYNTHETIC.csv` identity, которая раньше этого объекта не читала. Данные синтетические, но разбираем как реальные (CONFIDENTIAL).
+SOC L1 получает алерт `SEC | Cloud Storage PERMISSION_DENIED` от `sa-no-access`, затем `SEC | Service account token generated (impersonation)`. В Data Access видно чтение `confidential/finance-report-SYNTHETIC.csv` identity, которая раньше его не читала. Данные синтетические, но разбираем как реальные (CONFIDENTIAL).
 
 Формат: учебный разбор с переключением ролей (L1, L2, Cloud Security Engineer, Incident Commander).
 

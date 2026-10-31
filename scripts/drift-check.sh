@@ -1,8 +1,4 @@
 #!/usr/bin/env bash
-# Проверка дрейфа и неожиданных ресурсов. Запускать из корня репозитория.
-#  1) terraform plan -detailed-exitcode: 0 = нет изменений, 2 = есть дрейф, 1 = ошибка.
-#  2) Cloud Asset Inventory: список ресурсов проекта, чтобы сверить с docs/asset-registry.md.
-# Terraform НЕ видит ресурсы, которых нет в коде (например, ручное firewall-правило): поэтому нужен п.2.
 set -uo pipefail
 : "${PROJECT_ID:?Задай PROJECT_ID}"
 

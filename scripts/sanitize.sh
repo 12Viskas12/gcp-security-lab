@@ -1,7 +1,4 @@
 #!/usr/bin/env bash
-# Очистка вывода/логов перед публикацией: заменяет email, IP, ID проекта, номер проекта, billing account.
-# Использование: bash scripts/sanitize.sh evidence/raw/ir-02-log.txt > evidence/sanitized-logs/ir-02-log.txt
-# Обязательно просмотри результат глазами: скрипт не заменяет всё на свете.
 set -euo pipefail
 : "${PROJECT_ID:?Задай PROJECT_ID}"
 PROJECT_NUMBER="${PROJECT_NUMBER:-$(gcloud projects describe "$PROJECT_ID" --format='value(projectNumber)' 2>/dev/null || true)}"

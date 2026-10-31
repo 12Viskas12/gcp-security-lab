@@ -37,8 +37,6 @@ variable "alert_email" {
   type        = string
 }
 
-# --- IAM: члены ролей. Формат: "user:name@example.com" или "group:team@example.com" ---
-
 variable "security_admin_members" {
   description = "Security Admin: управление логированием, алертами, политиками bucket."
   type        = list(string)
@@ -83,8 +81,6 @@ variable "tester_members" {
   }
 }
 
-# --- Storage ---
-
 variable "bucket_retention_seconds" {
   description = "Retention policy на объекты (0 = выключено). Не locked, чтобы лабу можно было удалить. 86400 = 24 ч; пока не истекло, terraform destroy объектов упадёт."
   type        = number
@@ -97,8 +93,6 @@ variable "noncurrent_version_retention_days" {
   default     = 30
 }
 
-# --- Логирование ---
-
 variable "log_bucket_location" {
   description = "Расположение log bucket (global или регион, поддерживаемый Cloud Logging)."
   type        = string
@@ -110,8 +104,6 @@ variable "log_retention_days" {
   type        = number
   default     = 30
 }
-
-# --- Бюджет (опционально; основной путь — создать бюджет через gcloud до начала работ) ---
 
 variable "billing_account" {
   description = "ID billing account (XXXXXX-XXXXXX-XXXXXX). Пусто = бюджет через Terraform не создаётся."
