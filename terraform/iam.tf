@@ -116,7 +116,7 @@ locals {
     }
     operator = {
       members = local.operator_all
-      roles   = [google_project_iam_custom_role.lab_operator.name]
+      roles   = ["projects/${var.project_id}/roles/labOperator"]
     }
   }
 
@@ -145,7 +145,7 @@ resource "google_storage_bucket_iam_member" "role_bindings" {
   role   = each.value.role
   member = each.value.member
 
-  depends_on = [google_service_account.role_holders]
+  depends_on = [google_service_account.role_holders, google_project_iam_custom_role.lab_operator]
 }
 
 # Operator может получать токен ТОЛЬКО для sa-app-reader (impersonation вместо ключей).

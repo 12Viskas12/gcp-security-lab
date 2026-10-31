@@ -27,3 +27,6 @@ evidence/raw/
 Thumbs.db
 .vscode/
 .idea/
+*.bak
+terraform.tfvars*
+!terraform.tfvars.example
