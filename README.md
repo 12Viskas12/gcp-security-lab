@@ -40,10 +40,6 @@ cd .. && PROJECT_ID=PROJECT_ID bash scripts/verify.sh
 
 Не коммить `terraform.tfvars`, `*.tfstate`, ключи SA и токены. Это блокируют `.gitignore`, `pre-push-check.sh` и CI (gitleaks). Evidence очищается `sanitize.sh` и просматривается вручную.
 
-## Оговорка
-
-Результаты основаны на фактическом запуске в тестовом проекте GCP.
-
 <!-- screenshots:Скриншоты -->
 ## Скриншоты
 
