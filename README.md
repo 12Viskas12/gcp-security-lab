@@ -13,7 +13,7 @@
 | `evidence/` | `architecture.png`, `screenshots/`, `sanitized-logs/` (без секретов) |
 | `scripts/` | `verify.sh`, `drift-check.sh`, `test-versioning.sh`, `sanitize.sh`, `pre-push-check.sh`, `import-existing.sh` |
 
-## Как развернуть (для другого инженера)
+## Как развернуть
 
 Нужны: `gcloud`, `terraform >= 1.5`, `git`, тестовый проект с billing.
 
@@ -60,5 +60,3 @@ cd .. && PROJECT_ID=PROJECT_ID bash scripts/verify.sh
 *Log Router: sink audit-to-security-bucket*
 
 ![Письма алертов](evidence/screenshots/19-email-alerts.png)
-
-*Письма алертов*
